@@ -1,0 +1,3 @@
+#tircbot
+
+import znc
