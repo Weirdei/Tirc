@@ -31,5 +31,8 @@ def message_receiver(update_id):
         update_id = (max(update_id_container) + 1)
     return msg, update_id
 
-def message_sender(nick_of_sender,message_to_send):
-    pass
+
+def hand(msg):
+    pprint(msg)
+
+MessageLoop(bot, hand).run_as_thread()
