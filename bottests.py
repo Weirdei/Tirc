@@ -1,10 +1,22 @@
-import telepot
-from telepot.loop import MessageLoop
-from pprint import pprint
 
-API_KEY = '323157985:AAH6_R0PyQemilBWZ4RsV9ttzfvDDqgourA'
+import urllib3
+import json
+from pprint import pprint
+import ssl
+import certifi
+
+BASE_API = 'https://api.telegram.org'
+API_KEY = 'bot323157985:AAH6_R0PyQemilBWZ4RsV9ttzfvDDqgourA'
 
 MESSAGE_ID_CONTAINER_FILENAME = 'message_id_container'
+
+
+
+http = urllib3.PoolManager(
+    cert_reqs='CERT_REQUIRED',
+    ca_certs=certifi.where(),
+)
+
 
 
 def read_update_id(filename):
@@ -16,23 +28,19 @@ def write_update_id(filename, num):
     with open(filename, 'w') as f:
         f.write(num)
 
+class Bot:
 
-bot = telepot.Bot(API_KEY)
+    def __init__(self, api_key, base_url):
+        self.api_key = api_key
+        self.base_url = base_url
 
-# temporary container aka list for storing all received messages
+    def method_to_url(self, method):
+        return self.base_url + '/' + self.api_key + '/' + method
 
-# Receive message later then highest_update_id, return tuple (list_of_messages,highest_update_id)
-def message_receiver(update_id):
-    msg = bot.getUpdates(offset=update_id)
-    update_id_container = []
-    for i in msg:
-        update_id_container.append(i['update_id'])
-    if update_id_container:
-        update_id = (max(update_id_container) + 1)
-    return msg, update_id
+    def call_method(self, method):
+        request =
 
 
-def hand(msg):
-    pprint(msg)
 
-MessageLoop(bot, hand).run_as_thread()
+bot = Bot(API_KEY, BASE_API)
+
